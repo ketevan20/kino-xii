@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${archivo.variable} h-full antialiased`}
     >
-      <body className="flex min-h-screen flex-col bg-[rgba(7,12,28,1)]">
+      <body className="flex min-h-screen flex-col bg-page">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

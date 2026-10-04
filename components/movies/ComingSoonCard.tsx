@@ -9,7 +9,7 @@ const formatWeekOf = (iso: string) =>
 
 const CommingSoonCard = ({ movie }: { movie: MovieWithSynopsis }) => {
     return (
-        <div className='w-117.5 shrink-0 flex gap-4.5 p-3.5 rounded-[20px] bg-[rgba(30,32,49,1)] border border-transparent  hover:border-[rgba(42,44,61,1)] shadow-[0_1px_4px_0_rgba(0,0,0,0.25)]'>
+        <div className='w-117.5 shrink-0 flex gap-4.5 p-3.5 rounded-[20px] bg-card border border-transparent  hover:border-elevated shadow-[0_1px_4px_0_rgba(0,0,0,0.25)]'>
             <div className='relative w-34 '>
                 {
                     movie.posterUrl && (
@@ -24,13 +24,13 @@ const CommingSoonCard = ({ movie }: { movie: MovieWithSynopsis }) => {
                 }
             </div>
             <div className='flex flex-col gap-2'>
-                <p className='text-[rgba(236,48,19,1)] text-label-s uppercase'>in cinemas {formatWeekOf(movie.releaseDate)}</p>
-                <p className='text-h3 text-white'>{movie.title}</p>
-                <p className='text-[rgba(169,169,169,1)] text-body-m'>{movie.genres[0]?.name} · {movie.runtimeMinutes}min</p>
-                <p className='self-start rounded-full px-2 py-1 text-label-s bg-[rgba(236,48,19,0.1)] text-[rgba(236,48,19,1)]'>
-                    {movie.ageRating.minAge ? `${movie.ageRating.minAge}+` : "All ages"}
+                <p className='text-brand text-label-s uppercase'>in cinemas {formatWeekOf(movie.releaseDate)}</p>
+                <p className='text-h3 text-fg'>{movie.title}</p>
+                <p className='text-muted text-body-m'>{movie.genres[0]?.name} · {movie.runtimeMinutes}min</p>
+                <p className='self-start rounded-full px-2 py-1 text-label-s bg-brand/10 text-brand'>
+                    {movie.ageRating.code}
                 </p>
-                <button className='self-start text-label-s text-white rounded-full px-3 py-1.5 flex gap-1 items-center border border-[rgba(169,169,169,1)] hover:bg-[rgba(255,255,255,0.1)]'>
+                <button className='self-start text-label-s text-fg rounded-full px-3 py-1.5 flex gap-1 items-center border border-muted hover:bg-fg/10'>
                     <img src="/notify.svg" alt="notify icon" />
                     Notify Me
                 </button>

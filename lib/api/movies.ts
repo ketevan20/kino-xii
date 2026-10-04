@@ -12,3 +12,8 @@ export const getFeatured = () =>
 
 export const getMovie = (slug: string) =>
   api<DataWrapper<MovieDetail>>(`/movies/${slug}`).then((r) => r.data);
+
+export const searchMovies = (q: string, signal?: AbortSignal) =>
+  api<DataWrapper<Movie[]>>(`/search?q=${encodeURIComponent(q)}`, { signal }).then(
+    (r) => r.data
+  );

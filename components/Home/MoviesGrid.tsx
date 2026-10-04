@@ -2,14 +2,14 @@ import { MovieWithSynopsis } from '@/types/api'
 import Link from 'next/link'
 import React from 'react'
 import NowPlayingCard from '../movies/NowPlayingCard'
-import CommingSoonCard from '../movies/CommingSoonCard'
+import CommingSoonCard from '../movies/ComingSoonCard'
 
 const MoviesGrid = ({ movies, title }: { movies: MovieWithSynopsis[], title: string }) => {
     return (
         <section className='w-full flex flex-col gap-6 px-17.5'>
             <div className='flex justify-between'>
-                <h1 className='text-h1 uppercase text-white'>{title}</h1>
-                <Link href={'/sessions'} className='self-baseline-last text-label-m text-[rgba(236,48,19,1)]'>
+                <h1 className='text-h1 uppercase text-fg'>{title}</h1>
+                <Link href={'/sessions'} className='self-baseline-last text-label-m text-brand'>
                     See all
                 </Link>
             </div>
@@ -18,11 +18,11 @@ const MoviesGrid = ({ movies, title }: { movies: MovieWithSynopsis[], title: str
                     {
                         movies.slice(0, 10).map((movie) => {
                             if(title === "Now Playing" ) return <NowPlayingCard key={movie.id} movie={movie} />
-                            if(title === "Comming Soon..." ) return <CommingSoonCard key={movie.id} movie={movie} />
+                            if(title === "Coming Soon..." ) return <CommingSoonCard key={movie.id} movie={movie} />
                         })
                     }
                 </div>
-                <div className='pointer-events-none absolute inset-y-0 right-0 z-10 w-45 bg-linear-to-l from-[rgba(7,12,28,1)] to-transparent' />
+                <div className='pointer-events-none absolute inset-y-0 right-0 z-10 w-45 bg-linear-to-l from-page to-transparent' />
             </div>
         </section>
     )

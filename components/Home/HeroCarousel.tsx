@@ -59,15 +59,15 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent' />
 
               <div className='absolute bottom-44.75 left-16.75 flex flex-col gap-3.75 max-w-145'>
-                <div className='self-start bg-[rgba(236,48,19,0.1)] text-[rgba(236,48,19,1)] uppercase px-2.5 py-1.5 rounded-full text-label-s'>
+                <div className='self-start bg-brand/10 text-brand uppercase px-2.5 py-1.5 rounded-full text-label-s'>
                   {`Premiere · Week of ${formatWeekOf(movie.releaseDate)}`}
                 </div>
 
                 <h1 className='text-white text-display uppercase'>{movie.title}</h1>
 
                 <div className='flex flex-wrap items-center gap-2'>
-                  <span className={`${chip} bg-[rgba(236,48,19,0.1)]! text-[rgba(236,48,19,1)]!`}>
-                    {movie.ageRating.minAge}+
+                  <span className={`${chip} bg-brand/10! text-brand!`}>
+                    {movie.ageRating.code}
                   </span>
                   <span className={chip}>
                     <img src='/Timer.svg' alt='timer icon' />
@@ -80,7 +80,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
                   ))}
                 </div>
 
-                <p className='text-body-m text-white'>
+                <p className='text-body-m text-fg'>
                   {movie.synopsis}
                 </p>
 
@@ -88,7 +88,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
                   <Link
                     href={`/movies/${movie.slug}`}
                     tabIndex={active ? 0 : -1}
-                    className='inline-flex items-center gap-2 rounded-full bg-[rgba(236,48,19,1)] px-5.5 py-3.25 text-button text-white'
+                    className='inline-flex items-center gap-2 rounded-full bg-brand px-5.5 py-3.25 text-button text-fg'
                   >
                     <img src='/ticket.svg' alt='buy ticket icon' />
                     Buy tickets
@@ -96,7 +96,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
                   <Link
                     href={`/sessions`}
                     tabIndex={active ? 0 : -1}
-                    className='inline-flex items-center rounded-full bg-[rgba(255,255,255,0.1)] px-5.5 py-3.25 text-button text-white transition hover:bg-[rgba(169,169,169,1)]'
+                    className='inline-flex items-center rounded-full bg-fg/10 px-5.5 py-3.25 text-button text-fg transition hover:bg-muted'
                   >
                     All sessions
                   </Link>

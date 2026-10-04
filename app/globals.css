@@ -1,10 +1,24 @@
 @import "tailwindcss";
 
+@theme {
+  --color-page: #070c1c;
+  --color-card: #1e2031;
+  --color-elevated: #2a2c3d;
+
+  --color-fg: #ffffff;
+  --color-muted: #a9a9a9;
+  --color-subtle: #505261;
+
+  --color-brand: #ec3013;
+  --color-success: #4ade80;
+  --color-warning: #e27e04;
+}
+
 :root {
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
-button {
+button:focus {
   outline: none;
 }
 
