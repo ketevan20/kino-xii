@@ -1,6 +1,5 @@
-import ComingSoon from "@/components/Home/ComingSoon";
 import HeroCarousel from "@/components/Home/HeroCarousel";
-import NowPlaying from "@/components/Home/NowPlaying";
+import MoviesGrid from "@/components/Home/MoviesGrid";
 import RecentlyViewed from "@/components/Home/RecentlyViewed";
 import { getFeatured, getNowPlaying, getComingSoon } from "@/lib/api/movies";
 
@@ -16,8 +15,8 @@ export default async function Home() {
       <HeroCarousel movies={featured} />
       <div className='divide-y divide-[rgba(42,44,61,1)] *:py-10 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0'>
         <RecentlyViewed />
-        <NowPlaying movies={nowPlaying} />
-        <ComingSoon movies={comingSoon} />
+        <MoviesGrid movies={nowPlaying} title="Now Playing" />
+        <MoviesGrid movies={comingSoon} title="Comming Soon..." />
       </div>
     </div>
   );

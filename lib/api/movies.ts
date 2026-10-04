@@ -5,7 +5,7 @@ export const getNowPlaying = () =>
   api<DataWrapper<MovieWithSynopsis[]>>("/movies/now-playing").then((r) => r.data);
 
 export const getComingSoon = () =>
-  api<DataWrapper<Movie[]>>("/movies/coming-soon").then((r) => r.data);
+  api<DataWrapper<MovieWithSynopsis[]>>("/movies/coming-soon").then((r) => r.data);
 
 export const getFeatured = () =>
   api<DataWrapper<MovieWithSynopsis[]>>("/movies/featured").then((r) => r.data);
