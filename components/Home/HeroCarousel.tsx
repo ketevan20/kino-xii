@@ -30,7 +30,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
   if (count === 0) return null
 
   const chip =
-    'inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-[6px] text-[11px] font-medium text-white/90 backdrop-blur-sm'
+    'inline-flex items-center gap-1 text-white rounded-full bg-[rgba(255,255,255,0.1)] px-3 py-[6px] text-label-s'
 
   return (
     <section className='w-full h-[min(760px,100vh)] relative'>
@@ -59,47 +59,44 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent' />
 
               <div className='absolute bottom-44.75 left-16.75 flex flex-col gap-3.75 max-w-145'>
-                <div className='self-start bg-[rgba(236,48,19,0.1)] text-[rgba(236,48,19,1)] uppercase px-2.5 py-1.5 rounded-full text-[12px]'>
-                  {movie.isComingSoon
-                    ? `Premiere · Week of ${formatWeekOf(movie.releaseDate)}`
-                    : 'Now showing'}
+                <div className='self-start bg-[rgba(236,48,19,0.1)] text-[rgba(236,48,19,1)] uppercase px-2.5 py-1.5 rounded-full text-label-s'>
+                  {`Premiere · Week of ${formatWeekOf(movie.releaseDate)}`}
                 </div>
 
-                <h1 className='uppercase text-white text-[40px]'>{movie.title}</h1>
+                <h1 className='text-white text-display uppercase'>{movie.title}</h1>
 
-                <div className='mt-4 flex flex-wrap items-center gap-2'>
+                <div className='flex flex-wrap items-center gap-2'>
                   <span className={`${chip} bg-[rgba(236,48,19,0.1)]! text-[rgba(236,48,19,1)]!`}>
                     {movie.ageRating.minAge}+
                   </span>
                   <span className={chip}>
-                    {/* <Clock className='size-3' /> */}
                     <img src='/Timer.svg' alt='timer icon' />
                     {movie.runtimeMinutes} Min
                   </span>
                   {movie.formats.map((format) => (
-                    <span key={format.id} className={`${chip} uppercase`}>
+                    <span key={format.id} className={`${chip}`}>
                       {format.name}
                     </span>
                   ))}
                 </div>
 
-                <p className='mt-4 line-clamp-3 text-[11px] leading-snug text-white/85'>
+                <p className='text-body-m text-white'>
                   {movie.synopsis}
                 </p>
 
-                <div className='mt-5 flex items-center gap-2.5'>
+                <div className='mt-1.25 flex items-center gap-2.5'>
                   <Link
                     href={`/movies/${movie.slug}`}
                     tabIndex={active ? 0 : -1}
-                    className='inline-flex items-center gap-2 rounded-full bg-[rgba(236,48,19,1)] px-5.5 py-3.25 text-xs font-semibold text-white transition hover:bg-[#d92f0e]'
+                    className='inline-flex items-center gap-2 rounded-full bg-[rgba(236,48,19,1)] px-5.5 py-3.25 text-button text-white'
                   >
                     <img src='/ticket.svg' alt='buy ticket icon' />
                     Buy tickets
                   </Link>
                   <Link
-                    href={`/movies/sessions`}
+                    href={`/sessions`}
                     tabIndex={active ? 0 : -1}
-                    className='inline-flex items-center rounded-full bg-[rgba(255,255,255,0.1)] px-5.5 py-3.25 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/20'
+                    className='inline-flex items-center rounded-full bg-[rgba(255,255,255,0.1)] px-5.5 py-3.25 text-button text-white transition hover:bg-[rgba(169,169,169,1)]'
                   >
                     All sessions
                   </Link>
