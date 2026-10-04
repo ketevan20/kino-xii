@@ -97,6 +97,7 @@ export default function SearchBar() {
         if (e.key === "Escape") {
             if (showDropdown) setOpen(false);
             else if (query) reset();
+            inputRef.current?.blur()
             return;
         }
 
@@ -124,6 +125,27 @@ export default function SearchBar() {
                 }
                 break;
         }
+    }
+
+    function emptySearch({ icon, label, text }: { icon: string, label: string, text: string }) {
+        return (
+            <div className="hidden group-focus-within:flex absolute right-0 top-full z-50 mt-1.25 w-120 h-67.5 bg-page p-2 items-center justify-center flex-col gap-5 border border-elevated rounded-2xl">
+                <div className="w-12 h-12 bg-fg/10 flex items-center justify-center rounded-full">
+                    <img src={icon} alt="" />
+                </div>
+                <div className="flex flex-col gap-1.5 text-center">
+                    <p className="text-fg text-label-m">{label}</p>
+                    <p className="text-muted text-body-m">{text}</p>
+                </div>
+                <Link
+                    href="/sessions"
+                    onClick={() => setOpen(false)}
+                    className="text-button text-fg rounded-full px-5.5 py-3.25 bg-fg/10"
+                >
+                    Browse all sessions
+                </Link>
+            </div>
+        )
     }
 
     return (
@@ -160,27 +182,14 @@ export default function SearchBar() {
                 </button>
             )}
 
+            { !query && emptySearch({ icon: "/boxicons_popcorn.svg", label: "What do you want to watch?", text: "Search by title, director or cast" }) }
+
             {showDropdown && (
-                results.length === 0 ? (
-                    <div className="absolute right-0 top-full z-50 mt-1.25 w-120 h-67.5 bg-page p-2 flex items-center justify-center flex-col gap-5 border border-elevated rounded-2xl">
-                        <img src="/popcorn.svg" alt="" />
-                        <div className="flex flex-col gap-1.5 text-center">
-                            <p className="text-fg text-label-m">What do you want to watch?</p>
-                            <p className="text-muted text-body-m">Search by title, director or cast</p>
-                        </div>
-                        <Link
-                            href="/sessions"
-                            onClick={() => setOpen(false)}
-                            className="text-button text-fg rounded-full px-5.5 py-3.25 bg-fg/10"
-                        >
-                            Browse all sessions
-                        </Link>
-                    </div>
-                ) : (
+                results.length === 0 ? emptySearch({icon: '/search.svg', label: `No results for “${query}”`, text: 'Check the spelling or try another film or live event.'}) : (
                     <ul
                         id="search-results"
                         role="listbox"
-                        className="absolute right-0 top-full z-50 mt-1.25 w-120 bg-page p-2 flex flex-col gap-0.5 border border-elevated rounded-2xl"
+                        className="hidden group-focus-within:flex absolute right-0 top-full z-50 mt-1.25 w-120 bg-page p-2 flex-col gap-0.5 border border-elevated rounded-2xl"
                     >
                         <li role="presentation" className="flex justify-between px-2.5 pt-2 pb-1.5 text-muted">
                             <p className="text-overline">FILMS & EVENTS</p>
