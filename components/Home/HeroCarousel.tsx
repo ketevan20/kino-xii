@@ -109,7 +109,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
       }
 
       {count > 1 && (
-        <div className='absolute bottom-[67.5px] left-16.75 right-16.75 flex items-center gap-5'>
+        <div className='absolute bottom-10.5 left-16.75 right-16.75 flex items-center gap-5'>
           <div className='flex flex-1 gap-1.75'>
             {movies.map((movie, i) => (
               <button
@@ -122,7 +122,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
                 <span
                   className={`block h-0.75 w-full rounded-full transition-colors ${i === index
                     ? 'bg-[rgba(236,48,19,1)]'
-                    : 'bg-[rgba(255,255,255,1)] group-hover:bg-white/70'
+                    : 'bg-[rgba(255,255,255,1)] group-hover:bg-white/70 group-hover:cursor-pointer'
                     }`}
                 />
               </button>

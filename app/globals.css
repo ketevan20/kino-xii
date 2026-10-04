@@ -4,6 +4,10 @@
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
+button {
+    outline: none;
+  }
+
 .text-display {
   font-size: 40px;
   font-weight: 800;
