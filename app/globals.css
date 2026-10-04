@@ -5,8 +5,12 @@
 }
 
 button {
-    outline: none;
-  }
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
 
 .text-display {
   font-size: 40px;
@@ -54,7 +58,8 @@ button {
   font-size: 12px;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: 0.06em; /* 6% */
+  letter-spacing: 0.06em;
+  /* 6% */
   text-transform: uppercase;
 }
 

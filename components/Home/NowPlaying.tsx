@@ -1,8 +1,29 @@
-import { Movie } from '@/types/api';
+import { MovieWithSynopsis } from '@/types/api';
+import Link from 'next/link';
+import NowPlayingCard from '../movies/NowPlayingCard';
 
-const NowPlaying = ({ movies }: { movies: Movie[] }) => {
+const NowPlaying = ({ movies }: { movies: MovieWithSynopsis[] }) => {
   return (
-    <div>NowPlaying</div>
+    <section className='w-full flex flex-col gap-6 px-17.5'>
+      <div className='flex justify-between'>
+        <h1 className='text-h1 uppercase text-white'>Now Playing</h1>
+        <Link href={'/sessions'} className='self-baseline-last text-label-m text-[rgba(236,48,19,1)]'>
+          See all
+        </Link>
+      </div>
+      <div className='relative w-full'>
+        <div className='w-full flex gap-4.25 overflow-x-scroll scrollbar-none'>
+          {
+            movies.slice(0, 10).map((movie) => {
+              return (
+                <NowPlayingCard key={movie.id} movie={movie} />
+              )
+            })
+          }
+        </div>
+         <div className='pointer-events-none absolute inset-y-0 right-0 z-10 w-45 bg-linear-to-l from-[rgba(7,12,28,1)] to-transparent' />
+      </div>
+    </section>
   )
 }
 

@@ -134,7 +134,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               type='button'
               aria-label='Previous'
               onClick={() => goTo(index - 1)}
-              className='grid w-13.5 h-13.5 place-items-center rounded-full bg-[#070C1C]/20 hover:bg-[#070C1C] text-white  transition'
+              className='cursor-pointer grid w-13.5 h-13.5 place-items-center rounded-full bg-[#070C1C]/20 hover:bg-[#070C1C] text-white  transition'
             >
               <img src='arrow.svg' alt='next icon' className='-scale-x-100'/>
             </button>
@@ -142,7 +142,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               type='button'
               aria-label='Next'
               onClick={() => goTo(index + 1)}
-              className='grid w-13.5 h-13.5 place-items-center rounded-full bg-[#070C1C]/20 hover:bg-[#070C1C] text-white transition'
+              className='cursor-pointer grid w-13.5 h-13.5 place-items-center rounded-full bg-[#070C1C]/20 hover:bg-[#070C1C] text-white transition'
             >
               <img src='arrow.svg' alt='next icon'/>
             </button>
