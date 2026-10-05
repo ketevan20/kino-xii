@@ -3,11 +3,12 @@ import type { Movie } from "@/types/api";
 const KEY = "kino:recentlyViewed";
 const MAX = 10;
 
-export type RecentMovie = Pick<Movie, "id" | "slug" | "title" | "posterUrl" | "ageRating">;
+export type RecentMovie = Pick<Movie, "id" | "slug" | "title" | "posterUrl" | "ageRating" | "genres" | "runtimeMinutes">;
 
 export function getRecent(): RecentMovie[] {
     try {
         const raw = localStorage.getItem(KEY);
+        console.log(raw && JSON.parse(raw))
         return raw ? JSON.parse(raw) : [];
     } catch {
         return [];

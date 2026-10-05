@@ -1,3 +1,4 @@
+import TrackRecentlyViewed from '@/components/home/TrackRecentlyViewed';
 import MovieHero from '@/components/movie/MovieHero';
 import MovieInfoSidebar from '@/components/movie/MovieInfoSidebar';
 import SessionsSection from '@/components/movie/SessionsSection';
@@ -45,10 +46,12 @@ const page = async ({ params, searchParams }: PageProps) => {
 
     return (
         <main className='bg-page text-fg flex flex-col gap-8.5'>
+            <TrackRecentlyViewed movie={movie} />
+
             <MovieHero movie={movie} />
 
             <div className='px-12.75 flex gap-2.5 mb-34'>
-                <SessionsSection movie={movie} sessions={venues} weekSessionCount={weekSessionCount}/>
+                <SessionsSection movie={movie} sessions={venues} weekSessionCount={weekSessionCount} />
                 <MovieInfoSidebar movie={movie} />
             </div>
         </main>

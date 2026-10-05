@@ -12,6 +12,8 @@ export default function TrackRecentlyViewed({ movie }: { movie: MovieDetail }) {
       title: movie.title,
       posterUrl: movie.posterUrl,
       ageRating: movie.ageRating,
+      genres: movie.genres,
+      runtimeMinutes: movie.runtimeMinutes
     });
   }, [movie.id]);
 
