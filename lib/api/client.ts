@@ -14,7 +14,6 @@ export async function api<T>(
 
   const res = await fetch(`${BASE}${path}`, {
     ...rest,
-    ...(token ? {} : { next: { revalidate: 30 } }),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

@@ -4,24 +4,29 @@ import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Archivo } from 'next/font/google'
+import { getFilterOptions } from "@/lib/api/filterOptions";
+import { FilterOptionsProvider } from "@/providers/FilterOptionsProvider";
 
 const archivo = Archivo({
   subsets: ['latin'],
-  weight: ['400', '600', '800'], 
+  weight: ['400', '600', '800'],
   variable: '--font-archivo',
 })
 
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const filterOptions = await getFilterOptions();
   return (
     <html
       lang="en"
       className={`${archivo.variable} h-full antialiased`}
     >
       <body className="flex min-h-screen flex-col bg-page">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <FilterOptionsProvider value={filterOptions}>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </FilterOptionsProvider>
       </body>
     </html>
   );

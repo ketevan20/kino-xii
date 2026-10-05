@@ -1,3 +1,15 @@
+export interface FilterOptions {
+  venues: Venue[];                                  
+  formats: Format[];
+  languages: Language[];
+  timeBands: { id: TimeBand; label: string }[];
+  sorts: { id: string; label: string }[];
+  ticketTypes: TicketType[];
+  ageRatings: AgeRating[];
+  maxSeatsPerOrder: number;                        
+  holdMinutes: number;                              
+}
+
 export interface Format {
   id: number;
   slug: string;

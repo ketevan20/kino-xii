@@ -19,6 +19,6 @@ export const searchMovies = (q: string, signal?: AbortSignal) =>
   );
 
 export const getMovieSessions = (slug: string, date: string) =>
-  api<DataWrapper<VenueSessions[]>>(`/movies/${slug}/sessions?date=${date}`).then(
+  api<DataWrapper<VenueSessions[]>>(`/movies/${slug}/sessions?date=${date}`, { next: { revalidate: 30 }, }).then(
     (r) => r.data
   );
