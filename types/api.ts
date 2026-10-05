@@ -176,3 +176,15 @@ export interface Order {
 export interface DataWrapper<T> {
   data: T;
 }
+
+export type VenueBrief = Omit<Venue, "formats">;
+
+export interface MovieSession extends Omit<Session, "movie" | "venue" | "hall"> {
+  hall: Hall & { venue: VenueBrief };
+  venue: VenueBrief;
+}
+
+export interface VenueSessions {
+  venue: VenueBrief;
+  sessions: MovieSession[];
+}

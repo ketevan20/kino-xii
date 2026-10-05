@@ -1,5 +1,5 @@
 import { api } from "./client";
-import type { DataWrapper, Movie, MovieWithSynopsis, MovieDetail } from "@/types/api";
+import type { DataWrapper, Movie, MovieWithSynopsis, MovieDetail, VenueSessions } from "@/types/api";
 
 export const getNowPlaying = () =>
   api<DataWrapper<MovieWithSynopsis[]>>("/movies/now-playing").then((r) => r.data);
@@ -15,5 +15,10 @@ export const getMovie = (slug: string) =>
 
 export const searchMovies = (q: string, signal?: AbortSignal) =>
   api<DataWrapper<Movie[]>>(`/search?q=${encodeURIComponent(q)}`, { signal }).then(
+    (r) => r.data
+  );
+
+export const getMovieSessions = (slug: string, date: string) =>
+  api<DataWrapper<VenueSessions[]>>(`/movies/${slug}/sessions?date=${date}`).then(
     (r) => r.data
   );

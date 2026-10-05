@@ -3,6 +3,7 @@ import { MovieWithSynopsis } from '@/types/api'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
+import Badge from '../ui/Badge'
 
 const formatWeekOf = (iso: string) =>
   new Date(iso)
@@ -28,9 +29,6 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
   }, [paused, count, index])
 
   if (count === 0) return null
-
-  const chip =
-    'inline-flex items-center gap-1 text-white rounded-full bg-[rgba(255,255,255,0.1)] px-3 py-[6px] text-label-s'
 
   return (
     <section className='w-full h-[min(760px,100vh)] relative'>
@@ -59,24 +57,15 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent' />
 
               <div className='absolute bottom-44.75 left-16.75 flex flex-col gap-3.75 max-w-145'>
-                <div className='self-start bg-brand/10 text-brand uppercase px-2.5 py-1.5 rounded-full text-label-s'>
-                  {`Premiere · Week of ${formatWeekOf(movie.releaseDate)}`}
-                </div>
+                <Badge variant = 'brand'>{`Premiere · Week of ${formatWeekOf(movie.releaseDate)}`}</Badge>
 
                 <h1 className='text-white text-display uppercase'>{movie.title}</h1>
 
                 <div className='flex flex-wrap items-center gap-2'>
-                  <span className={`${chip} bg-brand/10! text-brand!`}>
-                    {movie.ageRating.code}
-                  </span>
-                  <span className={chip}>
-                    <img src='/Timer.svg' alt='timer icon' />
-                    {movie.runtimeMinutes} Min
-                  </span>
+                  <Badge variant='brand'>{movie.ageRating.code}</Badge>
+                  <Badge icon='/Timer.svg'>{movie.runtimeMinutes} Min</Badge>
                   {movie.formats.map((format) => (
-                    <span key={format.id} className={`${chip}`}>
-                      {format.name}
-                    </span>
+                    <Badge key={format.id}>{format.name}</Badge>
                   ))}
                 </div>
 
@@ -134,7 +123,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               type='button'
               aria-label='Previous'
               onClick={() => goTo(index - 1)}
-              className='cursor-pointer grid w-13.5 h-13.5 place-items-center rounded-full bg-[#070C1C]/20 hover:bg-[#070C1C] text-white  transition'
+              className='cursor-pointer grid w-13.5 h-13.5 place-items-center rounded-full bg-page/20 hover:bg-page text-white  transition'
             >
               <img src='arrow.svg' alt='next icon' className='-scale-x-100'/>
             </button>
@@ -142,7 +131,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               type='button'
               aria-label='Next'
               onClick={() => goTo(index + 1)}
-              className='cursor-pointer grid w-13.5 h-13.5 place-items-center rounded-full bg-[#070C1C]/20 hover:bg-[#070C1C] text-white transition'
+              className='cursor-pointer grid w-13.5 h-13.5 place-items-center rounded-full bg-page/20 hover:bg-page text-white transition'
             >
               <img src='arrow.svg' alt='next icon'/>
             </button>

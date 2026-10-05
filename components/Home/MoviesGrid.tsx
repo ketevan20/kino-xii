@@ -1,8 +1,8 @@
 import { MovieWithSynopsis } from '@/types/api'
 import Link from 'next/link'
 import React from 'react'
-import NowPlayingCard from '../movies/NowPlayingCard'
-import CommingSoonCard from '../movies/ComingSoonCard'
+import NowPlayingCard from './NowPlayingCard'
+import CommingSoonCard from './ComingSoonCard'
 
 const MoviesGrid = ({ movies, title }: { movies: MovieWithSynopsis[], title: string }) => {
     return (

@@ -1,6 +1,7 @@
 import { MovieWithSynopsis } from '@/types/api'
 import Image from 'next/image'
 import React from 'react'
+import Badge from '../ui/Badge'
 
 const formatWeekOf = (iso: string) =>
     new Date(iso)
@@ -27,9 +28,7 @@ const CommingSoonCard = ({ movie }: { movie: MovieWithSynopsis }) => {
                 <p className='text-brand text-label-s uppercase'>in cinemas {formatWeekOf(movie.releaseDate)}</p>
                 <p className='text-h3 text-fg'>{movie.title}</p>
                 <p className='text-muted text-body-m'>{movie.genres[0]?.name} · {movie.runtimeMinutes}min</p>
-                <p className='self-start rounded-full px-2 py-1 text-label-s bg-brand/10 text-brand'>
-                    {movie.ageRating.code}
-                </p>
+                <Badge variant='brand'>{movie.ageRating.code}</Badge>
                 <button className='self-start text-label-s text-fg rounded-full px-3 py-1.5 flex gap-1 items-center border border-muted hover:bg-fg/10'>
                     <img src="/notify.svg" alt="notify icon" />
                     Notify Me

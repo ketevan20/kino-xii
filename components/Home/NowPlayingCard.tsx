@@ -1,6 +1,7 @@
 import { MovieWithSynopsis } from '@/types/api'
 import Image from 'next/image'
 import Link from 'next/link'
+import Badge from '../ui/Badge'
 
 const NowPlayingCard = ({ movie }: { movie: MovieWithSynopsis }) => {
     return (
@@ -29,9 +30,7 @@ const NowPlayingCard = ({ movie }: { movie: MovieWithSynopsis }) => {
             <div className='flex flex-col gap-2 text-muted text-body-m'>
                 <h1 className='text-h2 truncate text-fg'>{movie.title}</h1>
                 <p>{movie.genres[0]?.name} · {movie.runtimeMinutes}min</p>
-                <p className='self-start rounded-full px-2 py-1 text-label-s bg-brand/10 text-brand'>
-                    {movie.ageRating.code}
-                </p>
+                <Badge variant='brand'>{movie.ageRating.code}</Badge>
             </div>
 
             <div className='mt-0.75 h-0 overflow-hidden text-muted text-body-m opacity-0 transition-[height,margin,opacity] duration-400 ease-out group-hover:mb-3 group-hover:mt-3 group-hover:h-13.5 group-hover:opacity-100'>

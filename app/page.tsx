@@ -1,6 +1,6 @@
-import HeroCarousel from "@/components/Home/HeroCarousel";
-import MoviesGrid from "@/components/Home/MoviesGrid";
-import RecentlyViewed from "@/components/Home/RecentlyViewed";
+import HeroCarousel from "@/components/home/HeroCarousel";
+import MoviesGrid from "@/components/home/MoviesGrid";
+import RecentlyViewed from "@/components/home/RecentlyViewed";
 import { getFeatured, getNowPlaying, getComingSoon } from "@/lib/api/movies";
 
 export default async function Home() {
