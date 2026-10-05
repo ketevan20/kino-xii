@@ -2,7 +2,7 @@ import React from 'react'
 
 const SessionsSection = () => {
   return (
-    <div>SessionsSection</div>
+    <div className='flex-1'>SessionsSection</div>
   )
 }
 

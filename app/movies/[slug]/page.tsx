@@ -1,4 +1,6 @@
 import MovieHero from '@/components/movie/MovieHero';
+import MovieInfoSidebar from '@/components/movie/MovieInfoSidebar';
+import SessionsSection from '@/components/movie/SessionsSection';
 import { ApiError } from '@/lib/api/errors';
 import { getMovie, getMovieSessions } from '@/lib/api/movies';
 import { MovieDetail } from '@/types/api';
@@ -32,10 +34,13 @@ const page = async ({ params, searchParams }: PageProps) => {
 
 
     return (
-        <main className='bg-page text-fg'>
+        <main className='bg-page text-fg flex flex-col gap-8.5'>
             <MovieHero movie={movie} />
 
-           
+            <div className='px-12.75 flex gap-2.5'>
+                <SessionsSection />
+                <MovieInfoSidebar movie={movie}/>
+            </div>
         </main>
     )
 }
