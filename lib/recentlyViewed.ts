@@ -8,7 +8,6 @@ export type RecentMovie = Pick<Movie, "id" | "slug" | "title" | "posterUrl" | "a
 export function getRecent(): RecentMovie[] {
     try {
         const raw = localStorage.getItem(KEY);
-        console.log(raw && JSON.parse(raw))
         return raw ? JSON.parse(raw) : [];
     } catch {
         return [];

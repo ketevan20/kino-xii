@@ -14,7 +14,7 @@ const SessionsSection = ({ movie, sessions, weekSessionCount }: { movie: MovieDe
           <h2 className='text-h2 text-fg'>Sessions</h2>
           <p className='text-body-s text-muted'>{weekSessionCount} sessions over the next seven days</p>
         </div>
-        <DateStrip acitive={active} setActive={setActive} comingSoon={movie.isComingSoon}/>
+        <DateStrip comingSoon={movie.isComingSoon}/>
       </div>
 
       {sessions.length === 0 && !movie.isComingSoon ? (

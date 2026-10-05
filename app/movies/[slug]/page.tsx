@@ -4,6 +4,7 @@ import MovieInfoSidebar from '@/components/movie/MovieInfoSidebar';
 import SessionsSection from '@/components/movie/SessionsSection';
 import { ApiError } from '@/lib/api/errors';
 import { getMovie, getMovieSessions } from '@/lib/api/movies';
+import { getDateOffset, getToday } from '@/lib/date';
 import { MovieDetail } from '@/types/api';
 import { notFound } from 'next/navigation';
 
@@ -25,24 +26,29 @@ const page = async ({ params, searchParams }: PageProps) => {
         throw e;
     }
 
+    const today = getToday();
+    const weekEnd = getDateOffset(6);
+
+    const requestedDate = date ?? today;
     const selectedDate =
-        date && movie.availableDates.includes(date) ? date : movie.availableDates[0];
+        !movie.isComingSoon && movie.availableDates.includes(requestedDate)
+            ? requestedDate
+            : null;
 
-    const venues =
-        movie.isComingSoon || !selectedDate
-            ? []
-            : await getMovieSessions(slug, selectedDate);
+    const weekDates = movie.availableDates.filter((d) => d >= today && d <= weekEnd);
 
-    const end = new Date();
-    end.setDate(end.getDate() + 6);
-    const endStr = end.toISOString().slice(0, 10);
-    const weekDates = movie.availableDates.filter((d) => d <= endStr);
+    const weekSessions = movie.isComingSoon
+        ? []
+        : await Promise.all(
+            weekDates.map(async (d) => ({ date: d, venues: await getMovieSessions(slug, d) }))
+        );
 
-    const weekSessionCount = movie.isComingSoon
-        ? 0
-        : (await Promise.all(weekDates.map((d) => getMovieSessions(slug, d))))
-            .flat()
-            .reduce((curr, acc) => curr + acc.sessions.length, 0);
+    const venues = weekSessions.find((w) => w.date === selectedDate)?.venues ?? [];
+
+    const weekSessionCount = weekSessions
+        .flatMap((w) => w.venues)
+        .reduce((acc, curr) => acc + curr.sessions.length, 0);
+
 
     return (
         <main className='bg-page text-fg flex flex-col gap-8.5'>

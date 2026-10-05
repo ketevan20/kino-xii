@@ -14,8 +14,8 @@ const SessionCard = ({ session }: { session: MovieSession }) => {
 
       <div className='relative w-px self-stretch'>
         <div className='absolute inset-y-3.5 left-0 w-px text-fg bg-[repeating-linear-gradient(to_bottom,currentColor_0_3px,transparent_3px_6px)]' />
-        <span className='absolute left-1/2 top-0 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-card' />
-        <span className='absolute bottom-0 left-1/2 size-5 -translate-x-1/2 translate-y-1/2 rounded-full bg-card' />
+        <span className='absolute left-1/2 top-0 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-card' />
+        <span className='absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2 rounded-full bg-card' />
       </div>
 
       <div className='w-20.75 flex flex-col gap-1.5 items-center justify-center'>
