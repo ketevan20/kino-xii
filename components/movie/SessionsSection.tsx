@@ -7,8 +7,6 @@ import VenueSessions from './VenueSessions'
 const SessionsSection = ({ movie, sessions, weekSessionCount }: { movie: MovieDetail, sessions: VenueSessionsType[], weekSessionCount: number }) => {
   const [active, setActive] = useState<string>('')
 
-  console.log(sessions);
-
   return (
     <section className='flex-1 pb-6.5 flex flex-col gap-6.75'>
       <div className='flex flex-col gap-3.5'>
