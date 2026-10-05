@@ -14,7 +14,7 @@ const MovieHero = ({ movie }: { movie: MovieDetail }) => {
             fill
             priority
             sizes='100vw'
-            className='object-[50%_15%] object-cover blur-xs'
+            className='scale-105 object-[50%_15%] object-cover blur-xs'
           />
         )
       }

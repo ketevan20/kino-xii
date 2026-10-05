@@ -32,14 +32,24 @@ const page = async ({ params, searchParams }: PageProps) => {
             ? []
             : await getMovieSessions(slug, selectedDate);
 
+    const end = new Date();
+    end.setDate(end.getDate() + 6);
+    const endStr = end.toISOString().slice(0, 10);
+    const weekDates = movie.availableDates.filter((d) => d <= endStr);
+
+    const weekSessionCount = movie.isComingSoon
+        ? 0
+        : (await Promise.all(weekDates.map((d) => getMovieSessions(slug, d))))
+            .flat()
+            .reduce((curr, acc) => curr + acc.sessions.length, 0);
 
     return (
         <main className='bg-page text-fg flex flex-col gap-8.5'>
             <MovieHero movie={movie} />
 
-            <div className='px-12.75 flex gap-2.5'>
-                <SessionsSection />
-                <MovieInfoSidebar movie={movie}/>
+            <div className='px-12.75 flex gap-2.5 mb-34'>
+                <SessionsSection movie={movie} sessions={venues} weekSessionCount={weekSessionCount}/>
+                <MovieInfoSidebar movie={movie} />
             </div>
         </main>
     )
