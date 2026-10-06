@@ -200,3 +200,26 @@ export interface VenueSessions {
   venue: VenueBrief;
   sessions: MovieSession[];
 }
+
+export interface ListSession extends MovieSession {
+  movie: Movie;
+}
+
+export interface SessionGroup {
+  movie: Movie;
+  sessions: ListSession[];
+}
+
+export interface SessionsMeta {
+  currentPage: number;
+  lastPage: number;      
+  perPage: number;
+  totalSessions: number;  
+  totalMovies: number;
+  date: string;
+}
+
+export interface SessionsPage {
+  data: SessionGroup[];
+  meta: SessionsMeta;
+}
