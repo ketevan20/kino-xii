@@ -30,7 +30,6 @@ export function buildSessionsQuery(q: SessionsQuery): string {
 
 export const getSessions = (q: SessionsQuery = {}) => {
   const qs = buildSessionsQuery(q);
-  console.log(qs)
   return api<SessionsPage>(`/sessions${qs ? `?${qs}` : ""}`, {
     cache: "no-store", 
   });
