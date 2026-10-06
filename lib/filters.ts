@@ -77,7 +77,7 @@ export function toggleFilter(
     writeList(next, "formats", readList(next, "formats").filter((s) => allowed.includes(s)));
   }
 
-  next.delete("page"); 
+  next.delete("page");
   return next;
 }
 
@@ -100,3 +100,27 @@ export function setPage(params: URLSearchParams, page: number): URLSearchParams 
   else next.delete("page");
   return next;
 }
+
+const ARRAY_KEYS: ArrayKey[] = ["venues", "formats", "languages", "bands"];
+
+export function clearFilters(params: URLSearchParams): URLSearchParams {
+  const next = clone(params);
+  ARRAY_KEYS.forEach((k) => next.delete(k));
+  next.delete("page");
+  return next;
+}
+
+const TZ = 'Asia/Tbilisi'
+
+export type DayOption = { key: string; weekday: string; day: string }
+
+export const getNextDays = (count = 7): DayOption[] =>
+  Array.from({ length: count }, (_, i) => {
+    const d = new Date(Date.now() + i * 86_400_000)
+    return {
+      key: d.toLocaleDateString('en-CA', { timeZone: TZ }),
+      weekday: d.toLocaleDateString('en-GB', { timeZone: TZ, weekday: 'short' }),
+      day: d.toLocaleDateString('en-GB', { timeZone: TZ, day: 'numeric' }),
+    }
+  })
+

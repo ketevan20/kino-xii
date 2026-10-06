@@ -1,18 +1,7 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link'
-
-const TZ = 'Asia/Tbilisi'
-
-const getNextDays = (count = 7) =>
-  Array.from({ length: count }, (_, i) => {
-    const d = new Date(Date.now() + i * 86_400_000)
-    return {
-      key: d.toLocaleDateString('en-CA', { timeZone: TZ }),
-      weekday: d.toLocaleDateString('en-GB', { timeZone: TZ, weekday: 'short' }),
-      day: d.toLocaleDateString('en-GB', { timeZone: TZ, day: 'numeric' }),
-    }
-  })
+import { getNextDays } from '@/lib/filters';
 
 const DateStrip = ({ comingSoon }: { comingSoon: boolean }) => {
   const days = getNextDays(7)
