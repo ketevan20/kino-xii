@@ -9,7 +9,7 @@ const MoviesGrid = ({ movies, title }: { movies: MovieWithSynopsis[], title: str
         <section className='w-full flex flex-col gap-6 px-17.5'>
             <div className='flex justify-between'>
                 <h1 className='text-h1 uppercase text-fg'>{title}</h1>
-                <Link href={'/sessions'} className='self-baseline-last text-label-m text-brand'>
+                <Link href={'/sessions'} className='self-baseline-last text-label-m text-brand hover:underline'>
                     See all
                 </Link>
             </div>
