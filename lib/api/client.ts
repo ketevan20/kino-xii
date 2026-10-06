@@ -29,6 +29,5 @@ export async function api<T>(
     throw new ApiError(res.status, data?.message ?? "Request failed", data?.errors, data);
   }
 
-  console.log(data)
   return data as T;
 }

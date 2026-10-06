@@ -10,7 +10,6 @@ type PageProps = {
 
 const page = async ({ searchParams }: PageProps) => {
     const params = toURLSearchParams(await searchParams);
-    console.log(params);
     const options = await getFilterOptions();
     const query = parseSessionsQuery(params, options);
     const { data, meta } = await getSessions(query);

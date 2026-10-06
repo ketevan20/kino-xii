@@ -3,7 +3,6 @@ import React from 'react'
 import MovieSessions from './MovieSessions'
 
 const SessionsResults = ({ data, meta }: { data: SessionGroup[], meta: number }) => {
-    console.log(data)
     return (
         <section className='w-full flex flex-col gap-6 min-w-0'>
             <div className='w-full flex justify-between'>
