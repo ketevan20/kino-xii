@@ -33,7 +33,7 @@ const SessionFilters = ({ days, selectedDate, query }: { days: DayOption[]; sele
 
   const shownFormats = availableFormats(options, selected.venues)
 
-  const go = (next: URLSearchParams) => router.push(`?${next}`, { scroll: true })
+  const go = (next: URLSearchParams) => router.push(`?${next}`, { scroll: false })
   const toggle = (key: ArrayKey, value: string) =>
     go(toggleFilter(params, key, value, options))
 
