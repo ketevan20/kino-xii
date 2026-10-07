@@ -7,7 +7,7 @@ import SessionTile from './SessionTile'
 const MovieSessions = ({ session }: { session: SessionGroup }) => {
     return (
         <article className='flex flex-col gap-3.5'>
-            <Link href={`movies/${session.movie.slug}`} className='flex gap-4 items-center'>
+            <Link href={`movies/${session.movie.slug}`} className='self-start flex gap-4 items-center'>
                 <div className='relative h-20 w-14 shrink-0 overflow-hidden rounded-md bg-fg/10'>
                     {session.movie.posterUrl && (
                         <Image src={session.movie.posterUrl} alt='' fill sizes='50px' className='object-cover' />
