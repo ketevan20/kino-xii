@@ -98,7 +98,7 @@ const SessionFilters = ({ days, selectedDate, query }: { days: DayOption[]; sele
           type='button'
           disabled={activeCount === 0}
           onClick={() => go(clearFilters(params))}
-          className='w-full py-2.25 rounded-full border border-muted text-label-s text-fg disabled:opacity-0'
+          className='w-full py-2.25 rounded-full border border-muted text-label-s text-fg disabled:opacity-0 disabled:invisible'
         >
           Clear filters
         </button>
