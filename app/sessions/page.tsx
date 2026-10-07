@@ -1,3 +1,4 @@
+import Pager from '@/components/sessions/Pager';
 import SessionFilters from '@/components/sessions/SessionFilters';
 import SessionsResults from '@/components/sessions/SessionsResults';
 import { getFilterOptions } from '@/lib/api/filterOptions';
@@ -24,8 +25,9 @@ const page = async ({ searchParams }: PageProps) => {
             </div>
             <div className='grid items-start gap-12.75 grid-cols-[320px_minmax(0,1fr)]'>
                 <SessionFilters days={days} selectedDate={date} query={query}/>
-                <div>
+                <div className='w-full h-full flex flex-col justify-between'>
                     <SessionsResults data={data} meta={meta.totalSessions} />
+                    <Pager currentPage={meta.currentPage} lastPage={meta.lastPage}/>
                 </div>
             </div>
         </main>

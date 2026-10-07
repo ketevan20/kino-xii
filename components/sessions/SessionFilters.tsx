@@ -33,12 +33,12 @@ const SessionFilters = ({ days, selectedDate, query }: { days: DayOption[]; sele
 
   const shownFormats = availableFormats(options, selected.venues)
 
-  const go = (next: URLSearchParams) => router.push(`?${next}`, { scroll: false })
+  const go = (next: URLSearchParams) => router.push(`?${next}`, { scroll: true })
   const toggle = (key: ArrayKey, value: string) =>
     go(toggleFilter(params, key, value, options))
 
   return (
-    <div className='sticky bg-card rounded-2xl p-6 flex flex-col justify-between'>
+    <div className='sticky top-0 bg-card rounded-2xl p-6 flex flex-col justify-between'>
       <div className='flex flex-col gap-6'>
         <h3 className='text-h3 text-fg'>Filters</h3>
         <FilterContainer title='Venue'>
