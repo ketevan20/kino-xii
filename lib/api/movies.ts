@@ -22,3 +22,8 @@ export const getMovieSessions = (slug: string, date: string) =>
   api<DataWrapper<VenueSessions[]>>(`/movies/${slug}/sessions?date=${date}`, { next: { revalidate: 30 }, }).then(
     (r) => r.data
   );
+
+export const notifyMovie = (slug: string) =>
+  api<DataWrapper<{ movieId: number; subscribed: boolean }>>(`/movies/${slug}/notify`, {
+    method: 'POST',
+  }).then((r) => r.data)
