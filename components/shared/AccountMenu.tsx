@@ -38,8 +38,8 @@ const AccountMenu = () => {
                         className="rounded-lg"
                     />
                 ) :
-                    <div className='w-10 h-10 shrin-0 flex items-center justify-center rounded-lg bg-card text-fg text-label-s'>
-                        {user?.username[0]}
+                    <div className='w-10 h-10 shrin-0 flex items-center justify-center rounded-lg bg-card text-fg text-label-s uppercase'>
+                        {user?.fullName ? `${user.fullName.split(" ")[0][0]} ${user.fullName.split(" ")[1][0]}` : user?.username[0]}
                     </div>
                 }
                 <span className={`absolute w-2 h-2 rounded-full right-0 bottom-0 border border-page ${user?.profileComplete ? 'bg-success' : 'bg-warning'}`}></span>
@@ -73,7 +73,7 @@ const AccountMenu = () => {
             </button>
 
             {open && (
-                <div className='absolute -bottom-3 translate-y-full right-0 bg-page rounded-2xl'>
+                <div className='absolute -bottom-3 translate-y-full right-0 bg-page rounded-2xl border border-elevated'>
                     <div className='px-5 flex flex-col gap-4'>
                         <div className='mt-5 flex gap-2.5 items-center'>
                             {renderAvatar()}
