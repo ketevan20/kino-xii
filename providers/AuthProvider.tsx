@@ -7,7 +7,7 @@ import { getToken, loadToken, saveToken } from '@/lib/auth/token'
 import type { User } from '@/types/api'
 
 type Status = 'loading' | 'guest' | 'authed'
-type ModalName = 'login' | 'register' | 'profile'
+type ModalName = 'login' | 'register' 
 type Action = () => void | Promise<void>
 
 type AuthContextValue = {

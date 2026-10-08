@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
@@ -7,6 +5,7 @@ import { Archivo } from 'next/font/google'
 import { getFilterOptions } from "@/lib/api/filterOptions";
 import { FilterOptionsProvider } from "@/providers/FilterOptionsProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
+import AuthModals from "@/components/modals/AuthModals";
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -28,6 +27,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
+            <AuthModals />
           </AuthProvider>
         </FilterOptionsProvider>
       </body>
