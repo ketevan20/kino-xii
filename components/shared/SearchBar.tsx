@@ -182,7 +182,7 @@ export default function SearchBar() {
                 </button>
             )}
 
-            { !query && emptySearch({ icon: "/boxicons_popcorn.svg", label: "What do you want to watch?", text: "Search by title, director or cast" }) }
+            { !query && open && emptySearch({ icon: "/boxicons_popcorn.svg", label: "What do you want to watch?", text: "Search by title, director or cast" }) }
 
             {showDropdown && (
                 results.length === 0 ? emptySearch({icon: '/search.svg', label: `No results for “${query}”`, text: 'Check the spelling or try another film or live event.'}) : (

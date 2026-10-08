@@ -28,17 +28,17 @@ const AccountMenu = () => {
 
     const renderAvatar = () => {
         return (
-            <div className='relative'>
+            <div className='relative w-10.5 h-10.5'>
                 {user?.avatar ? (
                     <Image
                         src={user.avatar}
                         alt="Account avatar"
-                        width={40}
-                        height={40}
-                        className="rounded-lg"
+                        width={42}
+                        height={42}
+                        className="shrink-0 h-full object-cover rounded-lg"
                     />
                 ) :
-                    <div className='w-10 h-10 shrin-0 flex items-center justify-center rounded-lg bg-card text-fg text-label-s uppercase'>
+                    <div className='w-10.5 h-10.5 shrin-0 flex items-center justify-center rounded-lg bg-card text-fg text-label-s uppercase'>
                         {user?.fullName ? `${user.fullName.split(" ")[0][0]} ${user.fullName.split(" ")[1][0]}` : user?.username[0]}
                     </div>
                 }
