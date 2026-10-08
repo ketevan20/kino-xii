@@ -1,4 +1,5 @@
 import { ApiError } from "./errors";
+import { getToken } from '@/lib/auth/token'
 
 const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -6,28 +7,29 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 let onUnauthorized: (() => void) | null = null;
 export const setUnauthorizedHandler = (fn: () => void) => (onUnauthorized = fn);
 
-export async function api<T>(
-  path: string,
-  init: RequestInit & { token?: string | null } = {}
-): Promise<T> {
-  const { token, headers, ...rest } = init;
+type Options = RequestInit & { skipAuthHandler?: boolean }
+
+export async function api<T>(path: string, init: Options = {}): Promise<T> {
+  const { skipAuthHandler, headers, body, ...rest } = init
+  const token = getToken()
+  const isForm = body instanceof FormData
 
   const res = await fetch(`${BASE}${path}`, {
     ...rest,
+    body,
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      ...(isForm ? {} : { 'Content-Type': 'application/json' }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
-  });
+  })
 
-  const data = await res.json().catch(() => null);
+  const data = await res.json().catch(() => null) 
 
   if (!res.ok) {
-    if (res.status === 401) onUnauthorized?.();
-    throw new ApiError(res.status, data?.message ?? "Request failed", data?.errors, data);
+    if (res.status === 401 && !skipAuthHandler) onUnauthorized?.()
+    throw new ApiError(res.status, data?.message ?? 'Request failed', data?.errors, data)
   }
-
-  return data as T;
+  return data as T
 }
