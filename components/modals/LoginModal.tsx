@@ -11,7 +11,7 @@ const LoginModal = () => {
   const { login, closeModal, openModal } = useAuth()
   const [serverError, setServerError] = useState('')
 
-  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<LoginForm>({ resolver: yupResolver(loginSchema) })
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting, isValid } } = useForm<LoginForm>({ resolver: yupResolver(loginSchema), mode: 'onTouched'  })
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -74,7 +74,7 @@ const LoginModal = () => {
               autoComplete='email'
               autoFocus
               {...register('email')}
-              className={`h-10 rounded-xl bg-card px-4 text-label-s outline-none border ${errors.email ? 'text-brand border-brand' : 'text-fg border-subtle'}`}
+              className={`h-10 rounded-xl bg-card px-4 text-label-s outline-none border hover:bg-elevated ${errors.email ? 'text-brand border-brand' : 'text-fg border-subtle'}`}
             />
             {errors.email && <p className='absolute -bottom-2 translate-y-full text-label-s text-brand'>{errors.email.message}</p>}
           </div>
@@ -88,7 +88,7 @@ const LoginModal = () => {
               type='password'
               autoComplete='current-password'
               {...register('password')}
-              className={`h-10 rounded-xl bg-card px-4 text-label-s outline-none border ${errors.password ? 'text-brand border-brand' : 'text-fg border-subtle'}`}
+              className={`h-10 rounded-xl bg-card px-4 text-label-s outline-none border hover:bg-elevated ${errors.password ? 'text-brand border-brand' : 'text-fg border-subtle'}`}
             />
             {errors.password && (
               <p className='absolute -bottom-2 translate-y-full text-label-s text-brand'>{errors.password.message}</p>
@@ -99,8 +99,8 @@ const LoginModal = () => {
 
           <button
             type='submit'
-            disabled={isSubmitting || Object.keys(errors).length > 0}
-            className={`mt-2 rounded-full text-fg bg-brand disabled:bg-subtle disabled:text-muted px-5.5 py-3.25 text-label-m`}
+            disabled={isSubmitting || !isValid}
+            className={`mt-2 rounded-full text-fg bg-brand disabled:bg-subtle disabled:text-muted px-5.5 py-3.25 text-label-m disabled:cursor-not-allowed`}
           >
             {isSubmitting ? 'Logging in…' : 'Log In'}
           </button>

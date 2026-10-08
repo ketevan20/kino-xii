@@ -22,9 +22,9 @@ button:focus {
   outline: none;
 }
 
-button:hover {
+/* button:hover {
   cursor: pointer;
-}
+} */
 
 .text-display {
   font-size: 40px;
