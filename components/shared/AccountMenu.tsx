@@ -99,8 +99,8 @@ const AccountMenu = () => {
                     </div>
                     <div className='mt-1 mb-2.5'>
                         <div className='flex flex-col gap-0.5'>
-                            {PageLinks('', '/profile.svg', 'Profile')}
-                            {PageLinks('', '/ticket.svg', 'My Tickets')}
+                            {PageLinks('/profile', '/profile.svg', 'Profile')}
+                            {PageLinks('/profile?tab=tickets', '/ticket.svg', 'My Tickets')}
                         </div>
                         <hr className='text-fg/10 w-full my-1' />
                         <button
