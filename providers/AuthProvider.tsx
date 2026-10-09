@@ -7,7 +7,7 @@ import { getToken, loadToken, saveToken } from '@/lib/auth/token'
 import type { User } from '@/types/api'
 
 type Status = 'loading' | 'guest' | 'authed'
-type ModalName = 'login' | 'register' 
+type ModalName = 'login' | 'register'
 type Action = () => void | Promise<void>
 
 type AuthContextValue = {
@@ -20,6 +20,7 @@ type AuthContextValue = {
   login: (input: LoginInput) => Promise<void>
   register: (form: FormData) => Promise<void>
   logout: () => Promise<void>
+  updateUser: (user: User) => void
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -141,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, status, modal, openModal, closeModal, requireAuth, login, register, logout }}
+      value={{ user, status, modal, openModal, closeModal, requireAuth, login, register, logout, updateUser: setUser }}
     >
       {children}
     </AuthContext.Provider>
