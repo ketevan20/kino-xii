@@ -5,6 +5,7 @@ import { getTickets } from '@/lib/api/tickets'
 import { useEffect, useState } from 'react'
 import { Order } from '@/types/api'
 import TicketsTab from './TicketsTab'
+import ProfileForm from './ProfileForm'
 
 type Tab = 'profile' | 'tickets'
 
@@ -67,7 +68,7 @@ const ProfileView = ({ tab }: { tab: Tab }) => {
 
             {
                 tab === 'profile' ?
-                    <p>ProfileForm</p>
+                    <ProfileForm user={user}/>
                     :
                     <TicketsTab orders={orders} failed={failed} onOrderUpdate={updateOrder} />
             }

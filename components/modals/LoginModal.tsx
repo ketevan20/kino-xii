@@ -107,7 +107,7 @@ const LoginModal = () => {
         </form>
 
         <p className='mt-6 text-center text-body-m text-muted'>
-          Don&apos;t have an account?{' '}
+          Don't have an account?{' '}
           <button type='button' onClick={() => openModal('register')} className='text-brand text-button hover:underline'>
             Sign Up
           </button>
