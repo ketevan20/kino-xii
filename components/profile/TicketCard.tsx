@@ -1,45 +1,27 @@
 import { Order } from '@/types/api'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Badge from '../ui/Badge'
 import { ApiError } from '@/lib/api/errors'
 import { refundOrder } from '@/lib/api/tickets'
 import RefundModal from '../modals/RefundModal'
 
-export const formatSessionDate = (startsAt: string) => {
-    const date = new Date(startsAt)
-    const day = date.toLocaleDateString('en-GB', {
+export const formatSessionDate = ({ date, time }: { date: string; time: string }) => {
+    const day = new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
         weekday: 'short',
         day: '2-digit',
         month: 'short',
-        timeZone: 'UTC',
-    })
-    const time = date.toLocaleTimeString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
         timeZone: 'UTC',
     })
     return `${day} · ${time}`
 }
 
 const REFUND_CUTOFF_MS = 2 * 60 * 60 * 1000
+const TBILISI_OFFSET_MS = 4 * 60 * 60 * 1000
 
-const formatRefundDeadline = (startsAt: string) => {
-    const d = new Date(new Date(startsAt).getTime() - REFUND_CUTOFF_MS)
-    const time = d.toLocaleTimeString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'UTC',
-    })
-    const day = d.toLocaleDateString('en-GB', {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-        timeZone: 'UTC',
-    })
-    return `${time}, ${day}`
+const refundDeadlineParts = ({ date, time }: { date: string; time: string }) => {
+    const iso = new Date(new Date(`${date}T${time}:00Z`).getTime() - REFUND_CUTOFF_MS).toISOString()
+    return { date: iso.slice(0, 10), time: iso.slice(11, 16) } 
 }
 
 const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order) => void }) => {
@@ -47,8 +29,11 @@ const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order
     const [refunding, setRefunding] = useState(false)
     const [error, setError] = useState('')
 
+    const refundDeadline = new Date(order.session.startsAt).getTime() - REFUND_CUTOFF_MS
+    const windowOpen = Date.now() + TBILISI_OFFSET_MS < refundDeadline
+
     const refunded = order.status === 'refunded'
-    const canAskRefund = order.isUpcoming && !refunded
+    const canRefund = !refunded && order.isRefundable && windowOpen
 
     const onRefund = async () => {
         setRefunding(true)
@@ -99,7 +84,7 @@ const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order
                         <p className='text-body-m text-muted'>{order.session.movie.runtimeMinutes} min</p>
                     </div>
                     <div className='flex gap-10'>
-                        {renderdetails('Date', formatSessionDate(order.session.startsAt))}
+                        {renderdetails('Date', formatSessionDate(order.session))}
                         {renderdetails('Venue', `${order.session.venue.name} · Hall ${order.session.hall.name}`)}
                         {renderdetails('format', `${order.session.format.name} · ${order.session.language.name}`)}
                     </div>
@@ -112,7 +97,7 @@ const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order
                 </div>
             </div>
 
-            <div className='px-6 py-5 flex flex-col gap-4'>
+            <div className='px-6 py-5 flex flex-col gap-4 border-l border-elevated border-dashed'>
                 <div>
                     <p className='text-muted uppercase text-overline'>order</p>
                     <p className='text-label-m text-fg mt-0.5'>{order.reference}</p>
@@ -125,12 +110,12 @@ const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order
                     <button
                         type='button'
                         onClick={() => setConfirming(true)}
-                        disabled={!order.isRefundable}
+                        disabled={!canRefund}
                         className='text-button text-fg bg-fg/10 rounded-full px-5.5 py-2.5 enabled:hover:bg-muted enabled:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
                     >
                         Refund
                     </button>
-                    <p className='text-muted text-body-m text-center'>{order.refundedAt ? `Refunded` : `Refundable until ${formatRefundDeadline(order.session.startsAt)}`}</p>
+                    <p className='text-muted text-body-m text-center'>{order.refundedAt ? `Refunded` : `Refundable until ${formatSessionDate(refundDeadlineParts(order.session))}`}</p>
                 </div>
             </div>
             {confirming && (

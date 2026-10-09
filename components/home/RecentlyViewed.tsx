@@ -20,7 +20,7 @@ export default function RecentlyViewed() {
       <h1 className='text-h1 text-fg'>Recently viewed</h1>
 
       <div className="relative w-full">
-        <div className="flex gap-5 overflow-x-scroll scrollbar-none">
+        <div className="flex gap-5 items-center overflow-x-scroll scrollbar-none">
           {
             movies.map(movie => (
               <Link href={`/movies/${movie.slug}`} key={movie.id} className="w-82.25 shrink-0 flex gap-3 p-2.5 rounded-2xl bg-card border border-transparent  hover:border-elevated">

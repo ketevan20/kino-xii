@@ -118,6 +118,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                     <input
                         id='profile-dob'
                         type='date'
+                        min="1900-01-01"
                         max={new Date().toLocaleDateString('en-CA')}
                         {...register('dateOfBirth')}
                         className={`${inputClass(!!errors.dateOfBirth)} [color-scheme:dark]`}
