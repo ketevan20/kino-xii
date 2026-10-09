@@ -4,6 +4,7 @@ import { useAuth } from '@/providers/AuthProvider'
 import { getTickets } from '@/lib/api/tickets'
 import { useEffect, useState } from 'react'
 import { Order } from '@/types/api'
+import TicketsTab from './TicketsTab'
 
 type Tab = 'profile' | 'tickets'
 
@@ -14,6 +15,7 @@ const tabs: { id: Tab; label: string; href: string }[] = [
 
 const ProfileView = ({ tab }: { tab: Tab }) => {
     const { user } = useAuth()
+    const [failed, setFailed] = useState(false)
 
     const [orders, setOrders] = useState<Order[] | null>(null)
 
@@ -24,12 +26,14 @@ const ProfileView = ({ tab }: { tab: Tab }) => {
                 console.log(data)
                 if (!ignore) setOrders(data)
             })
-            .catch(() => {
-            })
+            .catch(() => setFailed(true))
         return () => {
             ignore = true
         }
     }, [])
+
+    const updateOrder = (updated: Order) =>
+        setOrders((prev) => prev && prev.map((o) => (o.id === updated.id ? updated : o)))
 
     const count = orders ? orders.filter((o) => o.isUpcoming).length : null
 
@@ -52,7 +56,7 @@ const ProfileView = ({ tab }: { tab: Tab }) => {
                             <div>
                                 {t.label}
                                 {t.id === 'tickets' && count !== null && count > 0 && (
-                                    <span className='ml-2 rounded-full bg-brand px-2 py-0.5 text-label-s text-fg'>{count}</span>
+                                    <span className='ml-2 rounded-full bg-brand px-1.5 py-0.5 text-label-s text-fg'>{count}</span>
                                 )}
                             </div>
                             <div className={`h-0.5 w-full rounded-t-xs ${t.id === tab ? 'bg-brand' : ''}`}></div>
@@ -61,7 +65,12 @@ const ProfileView = ({ tab }: { tab: Tab }) => {
                 </nav>
             </div>
 
-            {tab === 'profile' ? <p>ProfileForm</p> : <p>TicketsTab</p>}
+            {
+                tab === 'profile' ?
+                    <p>ProfileForm</p>
+                    :
+                    <TicketsTab orders={orders} failed={failed} onOrderUpdate={updateOrder} />
+            }
         </div>
     )
 }
