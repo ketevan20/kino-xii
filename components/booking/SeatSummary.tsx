@@ -10,6 +10,7 @@ type Props = {
   onChangeType: (seatId: number, type: TicketSlug) => void
   onRemove: (seatId: number) => void
   onNext: () => void
+  loading: boolean
 }
 
 const SeatSummary = ({ session, selected, notice, onChangeType, onRemove, onNext }: Props) => {
