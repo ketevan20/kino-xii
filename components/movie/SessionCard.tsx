@@ -1,12 +1,16 @@
 import { MovieSession } from '@/types/api'
 import Badge from '../ui/Badge'
+import { useAuth } from '@/providers/AuthProvider'
+import { useBookingRouter } from '@/lib/hooks/useBookingRouter'
 
 const SessionCard = ({ session }: { session: MovieSession }) => {
+  const { requireAuth } = useAuth()
+  const { open } = useBookingRouter()
   const sessionDateTime = new Date(`${session.date}T${session.time}`);
   const isExpired = sessionDateTime <= new Date();
 
   return (
-    <div className={`w-51.75 bg-page flex rounded-xl overflow-hidden ${isExpired ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'} `}>
+    <button onClick={() => requireAuth(() => open(session.id))} className={`w-51.75 bg-page flex rounded-xl overflow-hidden ${isExpired ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'} `}>
       <div className='flex-1 w-31 p-3.75 flex flex-col gap-2 items-center justify-center'>
         <p className='text-h2 text-fg'>{session.time}</p>
         <p className='text-muted flex gap-1.5 items-center'><Badge className='opacity-70'>{session.format.name}</Badge></p>
@@ -39,7 +43,7 @@ const SessionCard = ({ session }: { session: MovieSession }) => {
         </div>
         <p className='text-body-s text-muted'>{session.language.code}</p>
       </div>
-    </div>
+    </button>
   )
 }
 

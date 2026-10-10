@@ -6,6 +6,8 @@ import { getFilterOptions } from "@/lib/api/filterOptions";
 import { FilterOptionsProvider } from "@/providers/FilterOptionsProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
 import AuthModals from "@/components/modals/AuthModals";
+import { Suspense } from "react";
+import BookingModal from "@/components/modals/BookingModal";
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -28,6 +30,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <main className="flex-1">{children}</main>
             <Footer />
             <AuthModals />
+            <Suspense fallback={null}>
+              <BookingModal />
+            </Suspense>
           </AuthProvider>
         </FilterOptionsProvider>
       </body>

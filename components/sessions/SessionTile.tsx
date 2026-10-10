@@ -2,25 +2,22 @@
 import { ListSession } from '@/types/api'
 import Badge from '../ui/Badge'
 import Link from 'next/link';
+import { useAuth } from '@/providers/AuthProvider';
+import { useBookingRouter } from '@/lib/hooks/useBookingRouter';
 
 const SessionTile = ({ session }: { session: ListSession }) => {
+  const { requireAuth } = useAuth()
+  const { open } = useBookingRouter()
   const sessionDateTime = new Date(`${session.date}T${session.time}`);
   const isExpired = sessionDateTime <= new Date();
   const soldOut = session.seatsLeft ? false : true;
   const isExpiring = session.seatsLeft <= 5;
 
   return (
-    <Link
-      href={''}
-      aria-disabled={isExpired || soldOut}
-      tabIndex={isExpired || soldOut ? -1 : undefined}
-      onClick={(event) => {
-        if (isExpired || soldOut) {
-          event.preventDefault()
-          return
-        }
-      }}
-      className={`bg-card rounded-2xl p-3.75 w-63 shrink-0  flex flex-col gap-3 ${isExpired || soldOut ? 'opacity-40 cursor-not-allowed' : 'opacity-100'}`}
+    <button
+      disabled={isExpired || soldOut}
+      onClick={() => requireAuth(() => open(session.id))}
+      className={`bg-card rounded-2xl p-3.75 w-63 shrink-0  flex flex-col gap-3 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed opacity-100'}`}
     >
       <div className='flex justify-between items-center'>
         <h3 className='text-h3 text-fg'>{session.time}</h3>
@@ -54,7 +51,7 @@ const SessionTile = ({ session }: { session: ListSession }) => {
           <p className='text-button text-fg self-end'>₾{session.price}</p>
         </div>
       </div>
-    </Link>
+    </button>
   )
 }
 

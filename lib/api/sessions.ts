@@ -1,14 +1,14 @@
 import { api } from "./client";
-import type { SessionsPage, TimeBand } from "@/types/api";
+import type { DataWrapper, ListSession, SessionsPage, TimeBand } from "@/types/api";
 
 export interface SessionsQuery {
   date?: string;
-  venues?: string[];      
+  venues?: string[];
   formats?: string[];
   languages?: string[];
   bands?: TimeBand[];
   search?: string;
-  sort?: string;          
+  sort?: string;
   page?: number;
 }
 
@@ -31,6 +31,9 @@ export function buildSessionsQuery(q: SessionsQuery): string {
 export const getSessions = (q: SessionsQuery = {}) => {
   const qs = buildSessionsQuery(q);
   return api<SessionsPage>(`/sessions${qs ? `?${qs}` : ""}`, {
-    cache: "no-store", 
+    cache: "no-store",
   });
 };
+
+export const getSession = (id: number) =>
+  api<DataWrapper<ListSession>>(`/sessions/${id}`, { cache: 'no-store' }).then((r) => r.data)
