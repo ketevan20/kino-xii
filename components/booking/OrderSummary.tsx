@@ -1,4 +1,5 @@
 import { formatSessionDate } from '@/components/profile/TicketCard'
+import { summarizeTickets } from '@/lib/tickets';
 import type { ListSession, SeatHold } from '@/types/api'
 
 const money = (n: number) => `₾${Number(n.toFixed(2))}`
@@ -10,15 +11,15 @@ const Row = ({ label, value }: { label: string; value: string }) => (
     </div>
 )
 
-const OrderSummary = ({ session, hold }: { session: ListSession; hold: SeatHold }) => {
+const OrderSummary = ({ session, hold, canPay, paying }: { session: ListSession; hold: SeatHold; canPay: boolean; paying: boolean }) => {
+    const tickets = summarizeTickets(hold.seats)
+
     const seats = hold.seats.map((s) => s.code).join(', ')
 
     const counts = hold.seats.reduce<Record<string, number>>((acc, s) => {
         acc[s.ticketType.name] = (acc[s.ticketType.name] ?? 0) + 1
         return acc
     }, {})
-
-    const tickets = Object.entries(counts).map(([name, n]) => `${n} x ${name}`).join(', ')
 
     return (
         <aside className='flex flex-col gap-3 border-l border-elevated pl-5'>
@@ -40,9 +41,10 @@ const OrderSummary = ({ session, hold }: { session: ListSession; hold: SeatHold 
                 </div>
                 <button
                     type='submit'
-                    disabled
-                    className='rounded-full bg-brand px-5.5 py-3.25 text-label-m text-fg disabled:bg-subtle disabled:text-muted'>
-                    Pay: Complete order
+                    disabled={!canPay || paying}
+                    className='rounded-full bg-brand px-5.5 py-3.25 text-label-m text-fg disabled:bg-subtle disabled:text-muted'
+                >
+                    {paying ? 'Processing…' : 'Pay: Complete order'}
                 </button>
             </div>
         </aside>

@@ -1,7 +1,7 @@
 import { ApiError } from '@/lib/api/errors';
 import { getSession, getSessionSeats } from '@/lib/api/sessions';
 import { useAuth } from '@/providers/AuthProvider';
-import { ListSession, Seat, SeatHold, SeatMap as SeatMapData, SelectedSeat, TicketSlug, } from '@/types/api';
+import { ListSession, Order, Seat, SeatHold, SeatMap as SeatMapData, SelectedSeat, TicketSlug, } from '@/types/api';
 import { useCallback, useEffect, useRef, useState } from 'react'
 import BookingHeader from './BookingHeader';
 import StepTabs from './StepTabs';
@@ -12,6 +12,7 @@ import { createHold, releaseHold } from '@/lib/api/booking';
 import { markSold } from '@/lib/seatMap';
 import HoldTimer from './HoldTimer';
 import CheckoutStep from './CheckoutStep';
+import Confirmation from './Confirmation';
 
 const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () => void }) => {
     const { user, modal } = useAuth()
@@ -26,6 +27,7 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
     const [error, setError] = useState('')
     const [seatMap, setSeatMap] = useState<SeatMapData | null>(null)
     const [notice, setNotice] = useState('')
+    const [order, setOrder] = useState<Order | null>(null)
 
     const minAge = session?.movie.ageRating.minAge ?? 0
     const tooYoung = !!session && user?.age != null && user.age < minAge
@@ -77,7 +79,7 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
     useEffect(() => {
         return () => {
             const live = holdRef.current
-            if (live) releaseHold(live.holdId).catch(() => { }) 
+            if (live) releaseHold(live.holdId).catch(() => { })
         }
     }, [])
 
@@ -101,13 +103,35 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
         setSelected(selected.map((s) => (s.seat.id === seatId ? { ...s, ticketType } : s)))
     }
 
-    const onHoldExpired = useCallback(() => {
+    const onHoldExpired = useCallback(
+        (message = 'Your hold time expired. Please re-select your seats.') => {
+            setHold(null)
+            setSelected([])
+            setStep(1)
+            setBanner(message)
+            loadSeats()
+        },
+        [loadSeats]
+    )
+
+    const reconcileLost = (lost: string[], fallback: string) => {
         setHold(null)
-        setSelected([])
         setStep(1)
-        setBanner('Your hold time expired. Please re-select your seats.')
+        setSelected((prev) => prev.filter((s) => !lost.includes(s.seat.code)))
+        setSeatMap((prev) => (prev ? markSold(prev, lost) : prev))
+        setBanner(
+            lost.length
+                ? `${lost.join(', ')} ${lost.length === 1 ? 'was' : 'were'} just taken. Your other seats are still selected.`
+                : fallback
+        )
         loadSeats()
-    }, [loadSeats])
+    }
+
+    const onPaid = (paid: Order) => {
+        holdRef.current = null
+        setHold(null)
+        setOrder(paid)
+    }
 
     const goToCheckout = async () => {
         setHolding(true)
@@ -124,14 +148,7 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
                 setBanner('Something went wrong. Please try again.')
             } else if (e.status === 409) {
                 const lost = (e.body as { contested?: string[] } | null)?.contested ?? []
-                setSelected((prev) => prev.filter((s) => !lost.includes(s.seat.code)))
-                setSeatMap((prev) => (prev ? markSold(prev, lost) : prev))
-                setBanner(
-                    lost.length
-                        ? `${lost.join(', ')} ${lost.length === 1 ? 'was' : 'were'} just taken. Your other seats are still selected.`
-                        : e.message
-                )
-                loadSeats()
+                reconcileLost(lost, e.message)
             } else if (e.isFieldError) {
                 setBanner(Object.values(e.errors!)[0][0])
             } else if (e.status !== 401) {
@@ -141,10 +158,14 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
             setHolding(false)
         }
     }
+    
+    if(!seatMap) return null
+
+    if (order) return <Confirmation order={order} onClose={onClose} />
 
     return (
         <div onClick={() => onClose()} className='fixed inset-0 z-40 flex items-center justify-center bg-[#101010]/30 p-4 backdrop-blur-xs'>
-            <div onClick={(e) => e.stopPropagation()} role='dialog' className='min-w-286.5 max-w-[calc(100vw-4rem)] max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-none flex flex-col gap-8 bg-page p-8 rounded-[28px] text-fg shadow-[0_1px_4px_0_rgba(0,0,0,0.25)]'>
+            <div onClick={(e) => e.stopPropagation()} role='dialog' className='min-w-286.5 max-w-[calc(100vw-6rem)] max-h-[calc(100vh-6rem)] min-h-150! overflow-y-auto scrollbar-none flex flex-col gap-8 bg-page p-8 rounded-[28px] text-fg shadow-[0_1px_4px_0_rgba(0,0,0,0.25)]'>
                 <div className='flex justify-between'>
                     <BookingHeader session={session} />
                     {hold && <HoldTimer expiresAt={hold.expiresAt} onExpire={onHoldExpired} />}
@@ -176,6 +197,9 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
                             setBanner('')
                             setStep(1)
                         }}
+                        onPaid={onPaid}
+                        onSeatsLost={reconcileLost}
+                        onHoldGone={onHoldExpired}
                     />
                 ) : (
                     <div className='flex gap-5'>

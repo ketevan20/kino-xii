@@ -25,7 +25,7 @@ const SessionTile = ({ session }: { session: ListSession }) => {
       </div>
       <div className='flex gap-2 justify-between'>
         <div className='flex flex-col gap-2.5'>
-          <p className='text-body-s text-muted'>{session.language.name}</p>
+          <p className='text-body-s text-muted text-left'>{session.language.name}</p>
           <p className='text-label-s text-fg'>{session.hall.venue.name} · Hall {session.hall.name}</p>
         </div>
         <div className='flex flex-col gap-2.5'>
