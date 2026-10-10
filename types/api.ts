@@ -223,3 +223,10 @@ export interface SessionsPage {
   data: SessionGroup[];
   meta: SessionsMeta;
 }
+
+export type TicketSlug = TicketType['slug']
+
+export interface SelectedSeat {
+  seat: Seat
+  ticketType: TicketSlug
+}

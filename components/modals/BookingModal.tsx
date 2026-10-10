@@ -4,6 +4,7 @@ import { BOOKING_PARAM, useBookingRouter } from "@/lib/hooks/useBookingRouter"
 import { useAuth } from "@/providers/AuthProvider"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
+import BookingDialog from "../booking/BookingDialog"
 
 const BookingModal = () => {
     const router = useRouter()
@@ -25,13 +26,7 @@ const BookingModal = () => {
 
     if (sessionId === null || status !== 'authed' || !user?.profileComplete) return null
 
-    return (
-        <div onClick={() => close()} className='fixed inset-0 z-40 flex items-center justify-center bg-[#101010]/30 p-4 backdrop-blur-xs'>
-            <div onClick={(e) => e.stopPropagation()} className='w-286.5 bg-page p-8 rounded-[28px] text-fg'>
-                Booking Modal
-            </div>
-        </div>
-    )
+    return <BookingDialog key={sessionId} sessionId={sessionId} onClose={close} />
 }
 
 export default BookingModal

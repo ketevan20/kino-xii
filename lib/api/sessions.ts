@@ -1,5 +1,5 @@
 import { api } from "./client";
-import type { DataWrapper, ListSession, SessionsPage, TimeBand } from "@/types/api";
+import type { DataWrapper, ListSession, SeatMap, SessionsPage, TimeBand } from "@/types/api";
 
 export interface SessionsQuery {
   date?: string;
@@ -37,3 +37,6 @@ export const getSessions = (q: SessionsQuery = {}) => {
 
 export const getSession = (id: number) =>
   api<DataWrapper<ListSession>>(`/sessions/${id}`, { cache: 'no-store' }).then((r) => r.data)
+
+export const getSessionSeats = (id: number) =>
+  api<DataWrapper<SeatMap>>(`/sessions/${id}/seats`, { cache: 'no-store' }).then((r) => r.data)
