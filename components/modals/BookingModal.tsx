@@ -2,10 +2,11 @@
 
 import { BOOKING_PARAM, useBookingRouter } from "@/lib/hooks/useBookingRouter"
 import { useAuth } from "@/providers/AuthProvider"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 
 const BookingModal = () => {
+    const router = useRouter()
     const { status, user, openModal } = useAuth()
     const { close } = useBookingRouter()
 
@@ -16,8 +17,13 @@ const BookingModal = () => {
         if (sessionId !== null && status === 'guest') openModal('login')
     }, [sessionId, status, openModal])
 
-    if (sessionId === null) return null
+    useEffect(() => {
+        if (sessionId !== null && status === 'authed' && user && !user.profileComplete) {
+            router.replace('/profile')
+        }
+    }, [sessionId, status, user, router])
 
+    if (sessionId === null || status !== 'authed' || !user?.profileComplete) return null
 
     return (
         <div onClick={() => close()} className='fixed inset-0 z-40 flex items-center justify-center bg-[#101010]/30 p-4 backdrop-blur-xs'>
