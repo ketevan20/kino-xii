@@ -1,4 +1,4 @@
-import { formatSessionDate } from '@/components/profile/TicketCard'
+import { formatSessionDate } from '@/lib/date';
 import { summarizeTickets } from '@/lib/tickets';
 import type { ListSession, SeatHold } from '@/types/api'
 

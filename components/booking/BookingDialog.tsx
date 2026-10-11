@@ -202,7 +202,7 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
                     />
                 ) : (
                     <div className='flex gap-5'>
-                        <div className='flex-1 w-180 border-r border-card pr-5'>
+                        <div className='flex-1 min-w-180 border-r border-card pr-5'>
                             <StepTabs step={step} />
                             {seatMap ? (
                                 <SeatMap

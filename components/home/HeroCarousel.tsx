@@ -4,11 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import Badge from '../ui/Badge'
-
-const formatWeekOf = (iso: string) =>
-  new Date(iso)
-    .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
-    .toUpperCase()
+import { formatDay } from '@/lib/date'
 
 const AUTOPLAY_MS = 7000
 
@@ -57,7 +53,7 @@ const HeroCarousel = ({ movies }: { movies: MovieWithSynopsis[] }) => {
               <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent' />
 
               <div className='absolute bottom-44.75 left-16.75 flex flex-col gap-3.75 max-w-145'>
-                <Badge variant = 'brand'>{`Premiere · Week of ${formatWeekOf(movie.releaseDate)}`}</Badge>
+                <Badge variant = 'brand'>{`Premiere · Week of ${formatDay(movie.releaseDate, { day: 'numeric', month: 'short' })}`}</Badge>
 
                 <h1 className='text-white text-display uppercase'>{movie.title}</h1>
 

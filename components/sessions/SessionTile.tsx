@@ -1,15 +1,14 @@
 'use client'
 import { ListSession } from '@/types/api'
 import Badge from '../ui/Badge'
-import Link from 'next/link';
 import { useAuth } from '@/providers/AuthProvider';
 import { useBookingRouter } from '@/lib/hooks/useBookingRouter';
+import { hasStarted } from '@/lib/date';
 
 const SessionTile = ({ session }: { session: ListSession }) => {
   const { requireAuth } = useAuth()
   const { open } = useBookingRouter()
-  const sessionDateTime = new Date(`${session.date}T${session.time}`);
-  const isExpired = sessionDateTime <= new Date();
+  const isExpired = hasStarted(session)
   const soldOut = session.seatsLeft ? false : true;
   const isExpiring = session.seatsLeft <= 5;
 

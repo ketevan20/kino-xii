@@ -2,10 +2,7 @@ import { MovieWithSynopsis } from '@/types/api'
 import Image from 'next/image'
 import Badge from '../ui/Badge'
 import NotifyButton from './NotifyButton'
-
-const formatWeekOf = (iso: string) =>
-    new Date(iso)
-        .toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })
+import { formatDay } from '@/lib/date'
 
 
 const CommingSoonCard = ({ movie }: { movie: MovieWithSynopsis }) => {
@@ -25,7 +22,7 @@ const CommingSoonCard = ({ movie }: { movie: MovieWithSynopsis }) => {
                 }
             </div>
             <div className='flex flex-col gap-2'>
-                <p className='text-brand text-label-s uppercase'>in cinemas {formatWeekOf(movie.releaseDate)}</p>
+                <p className='text-brand text-label-s uppercase'>in cinemas {formatDay(movie.releaseDate, { day: 'numeric', month: 'long' })}</p>
                 <p className='text-h3 text-fg'>{movie.title}</p>
                 <p className='text-muted text-body-m'>{movie.genres[0]?.name} · {movie.runtimeMinutes}min</p>
                 <Badge variant='brand'>{movie.ageRating.code}</Badge>

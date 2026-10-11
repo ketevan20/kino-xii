@@ -1,9 +1,9 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { formatSessionDate } from '@/components/profile/TicketCard'
 import { summarizeTickets } from '@/lib/tickets'
 import type { Order } from '@/types/api'
+import { formatSessionDate } from '@/lib/date'
 
 const money = (n: number) => `₾${Number(n.toFixed(2))}`
 

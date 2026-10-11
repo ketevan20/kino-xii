@@ -1,3 +1,4 @@
+import { formatDay } from '@/lib/date';
 import { MovieDetail } from '@/types/api'
 import React from 'react'
 
@@ -16,11 +17,7 @@ const MovieInfoSidebar = ({ movie }: { movie: MovieDetail }) => {
       {movie.cast && <Row label='MAIN CAST'>{movie.cast}</Row>}
       <Row label='Duration'>{movie.runtimeMinutes} minutes</Row>
       <Row label='Release date'>
-        {new Date(movie.releaseDate).toLocaleDateString('en-GB', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        })}
+        {formatDay(movie.releaseDate, { day: 'numeric', month: 'long', year: 'numeric' })}
       </Row>
       <Row label='Formats'>{movie.formats.map((f) => f.name).join(', ')}</Row>
       <Row label='From'>₾{movie.fromPrice}</Row>

@@ -5,32 +5,16 @@ import Badge from '../ui/Badge'
 import { ApiError } from '@/lib/api/errors'
 import { refundOrder } from '@/lib/api/tickets'
 import RefundModal from '../modals/RefundModal'
-
-export const formatSessionDate = ({ date, time }: { date: string; time: string }) => {
-    const day = new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
-        weekday: 'short',
-        day: '2-digit',
-        month: 'short',
-        timeZone: 'UTC',
-    })
-    return `${day} · ${time}`
-}
+import { formatSessionDate, msUntilStart, shiftWallClock } from '@/lib/date'
 
 const REFUND_CUTOFF_MS = 2 * 60 * 60 * 1000
-const TBILISI_OFFSET_MS = 4 * 60 * 60 * 1000
-
-const refundDeadlineParts = ({ date, time }: { date: string; time: string }) => {
-    const iso = new Date(new Date(`${date}T${time}:00Z`).getTime() - REFUND_CUTOFF_MS).toISOString()
-    return { date: iso.slice(0, 10), time: iso.slice(11, 16) } 
-}
 
 const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order) => void }) => {
     const [confirming, setConfirming] = useState(false)
     const [refunding, setRefunding] = useState(false)
     const [error, setError] = useState('')
 
-    const refundDeadline = new Date(order.session.startsAt).getTime() - REFUND_CUTOFF_MS
-    const windowOpen = Date.now() + TBILISI_OFFSET_MS < refundDeadline
+    const windowOpen = msUntilStart(order.session) > REFUND_CUTOFF_MS
 
     const refunded = order.status === 'refunded'
     const canRefund = !refunded && order.isRefundable && windowOpen
@@ -84,7 +68,7 @@ const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order
                         <p className='text-body-m text-muted'>{order.session.movie.runtimeMinutes} min</p>
                     </div>
                     <div className='flex gap-10'>
-                        {renderdetails('Date', formatSessionDate(order.session))}
+                        {renderdetails('Date', formatSessionDate(shiftWallClock(order.session, -0)))}
                         {renderdetails('Venue', `${order.session.venue.name} · Hall ${order.session.hall.name}`)}
                         {renderdetails('format', `${order.session.format.name} · ${order.session.language.name}`)}
                     </div>
@@ -115,7 +99,7 @@ const TicketCard = ({ order, onUpdate }: { order: Order; onUpdate: (order: Order
                     >
                         Refund
                     </button>
-                    <p className='text-muted text-body-m text-center'>{order.refundedAt ? `Refunded` : `Refundable until ${formatSessionDate(refundDeadlineParts(order.session))}`}</p>
+                    <p className='text-muted text-body-m text-center'>{order.refundedAt ? `Refunded` : `Refundable until ${formatSessionDate(shiftWallClock(order.session, -REFUND_CUTOFF_MS))}`}</p>
                 </div>
             </div>
             {confirming && (

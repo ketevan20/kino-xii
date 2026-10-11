@@ -1,3 +1,5 @@
+import React from 'react'
+
 const STEPS = ['Seats', 'Checkout']
 
 const StepTabs = ({ step, onBack }: { step: 1 | 2; onBack?: () => void }) => (
