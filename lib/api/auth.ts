@@ -11,7 +11,7 @@ export const loginRequest = (input: LoginInput) =>
     skipAuthHandler: true, 
   }).then((r) => r.data)
 
-// the form must be FormData (optional avatar); do not set Content-Type yourself
+// the form must be FormData (optional avatar); 
 export const registerRequest = (form: FormData) =>
   api<DataWrapper<AuthResult>>('/register', { method: 'POST', body: form }).then((r) => r.data)
 

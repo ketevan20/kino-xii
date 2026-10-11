@@ -158,8 +158,6 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
             setHolding(false)
         }
     }
-    
-    if(!seatMap) return null
 
     if (order) return <Confirmation order={order} onClose={onClose} />
 

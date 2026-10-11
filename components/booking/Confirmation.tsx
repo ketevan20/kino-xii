@@ -26,9 +26,10 @@ const Confirmation = ({ order, onClose }: { order: Order; onClose: () => void })
                 role='dialog'
                 aria-modal='true'
                 aria-label='Booking confirmed'
-                className='flex w-286.5 max-w-full min-h-150 flex-col items-center gap-6 rounded-[28px] border border-elevated bg-page p-8 text-fg'>
+                className='flex items-center justify-center w-286.5 max-w-full min-h-150 flex-col gap-6 rounded-[28px] border border-elevated bg-page p-8 text-fg'>
+                
                 <span className='flex size-12 items-center justify-center rounded-full bg-success'>
-                    <img src={'/checked.svg'} className='size-6'/>
+                    <img src={'/checked.svg'} className='size-6' />
                 </span>
 
                 <div className=' flex flex-col items-center gap-2 text-center'>
