@@ -1,14 +1,22 @@
 import { Order } from '@/types/api'
 import { useState } from 'react'
 import TicketCard from './TicketCard'
+import Skeleton from '../ui/Skeleton'
 
 type View = 'upcoming' | 'past'
 
-const TicketsTab = ({ orders, failed,  onOrderUpdate}: { orders: Order[] | null, failed: boolean, onOrderUpdate: (order: Order) => void }) => {
+const TicketsTab = ({ orders, failed, onOrderUpdate }: { orders: Order[] | null, failed: boolean, onOrderUpdate: (order: Order) => void }) => {
     const [view, setView] = useState<View>('upcoming')
 
     if (failed) return <p className='text-body-m text-muted'>Couldn't load your tickets. Please try again.</p>
-    if (!orders) return <p className='text-body-m text-muted'>Loading…</p>
+    if (!orders) return (
+        <div role='status' aria-label='Loading tickets' className='flex flex-col gap-6'>
+            <Skeleton className='h-9 w-56 rounded-full' />
+            {[0, 1].map((i) => (
+                <Skeleton key={i} className='h-44 w-full rounded-[26px]' />
+            ))}
+        </div>
+    )
 
     const upcoming = orders.filter((o) => o.isUpcoming)
     const past = orders.filter((o) => !o.isUpcoming)
@@ -26,7 +34,7 @@ const TicketsTab = ({ orders, failed,  onOrderUpdate}: { orders: Order[] | null,
                     <p className='text-body-m text-muted'>No {view} tickets.</p>
                 ) : (
                     shown.map((order) => (
-                        <TicketCard key={order.id} order={order} onUpdate={onOrderUpdate}/>
+                        <TicketCard key={order.id} order={order} onUpdate={onOrderUpdate} />
                     ))
                 )}
             </div>
