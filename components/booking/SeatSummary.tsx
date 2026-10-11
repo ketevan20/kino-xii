@@ -26,7 +26,7 @@ const SeatSummary = ({ session, selected, notice, onChangeType, onRemove, onNext
   const subtotal = selected.reduce((sum, s) => sum + priceOf(s), 0)
 
   return (
-    <aside className='flex-1 shrink-0 w-80.25 flex flex-col gap-3 justify-between'>
+    <aside className='shrink-0 w-80.25 flex flex-col gap-3 justify-between'>
       <div className='flex flex-col gap-3'>
         <h3 className='text-button text-fg'>Your seats · Max {maxSeatsPerOrder}</h3>
         {notice && <p className='text-label-s py-2 px-3.5 rounded-xl bg-warning/10 text-warning'>{notice}</p>}

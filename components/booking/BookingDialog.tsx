@@ -13,6 +13,7 @@ import { markSold } from '@/lib/seatMap';
 import HoldTimer from './HoldTimer';
 import CheckoutStep from './CheckoutStep';
 import Confirmation from './Confirmation';
+import SeatMapSkeleton from './SeatMapSkeleton';
 
 const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () => void }) => {
     const { user, modal } = useAuth()
@@ -201,7 +202,7 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
                     />
                 ) : (
                     <div className='flex gap-5'>
-                        <div className='border-r border-card pr-5'>
+                        <div className='flex-1 w-180 border-r border-card pr-5'>
                             <StepTabs step={step} />
                             {seatMap ? (
                                 <SeatMap
@@ -210,7 +211,7 @@ const BookingDialog = ({ sessionId, onClose }: { sessionId: number; onClose: () 
                                     onToggle={toggleSeat}
                                 />
                             ) : (
-                                <p className='text-body-m text-muted'>Loading seats…</p>
+                                <SeatMapSkeleton />
                             )}
                         </div>
 
